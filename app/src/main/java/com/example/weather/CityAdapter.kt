@@ -8,13 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.data.City
 
-class CityAdapter : RecyclerView.Adapter<CityAdapter.ViewHolder>() {
+class CityAdapter(private val data : List<City>) : RecyclerView.Adapter<CityAdapter.ViewHolder>() {
 
-    var data = listOf<City>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
@@ -41,7 +36,7 @@ class CityAdapter : RecyclerView.Adapter<CityAdapter.ViewHolder>() {
         )
     }
 
-    class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
+    inner class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         val city: TextView = itemView.findViewById(R.id.city_TV)
         val weather: TextView = itemView.findViewById(R.id.weather_TV)
         val image: ImageView = itemView.findViewById(R.id.imageIcon)

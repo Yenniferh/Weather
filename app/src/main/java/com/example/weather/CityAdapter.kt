@@ -7,9 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.data.City
+import com.google.android.material.card.MaterialCardView
 
-class CityAdapter(private val data : List<City>) : RecyclerView.Adapter<CityAdapter.ViewHolder>() {
-
+class CityAdapter(private val data : List<City>, private val listener: onListClick) : RecyclerView.Adapter<CityAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
@@ -21,6 +21,9 @@ class CityAdapter(private val data : List<City>) : RecyclerView.Adapter<CityAdap
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
+        holder.card.setOnClickListener{
+            listener?.onCardInteraction(item)
+        }
         holder.city.text = item.cityName
         holder.weather.text = item.currentWeather
         holder.image.setImageResource(
@@ -37,8 +40,13 @@ class CityAdapter(private val data : List<City>) : RecyclerView.Adapter<CityAdap
     }
 
     inner class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
+        val card: MaterialCardView = itemView.findViewById(R.id.city_Card)
         val city: TextView = itemView.findViewById(R.id.city_TV)
         val weather: TextView = itemView.findViewById(R.id.weather_TV)
         val image: ImageView = itemView.findViewById(R.id.imageIcon)
+    }
+
+    interface onListClick{
+        fun onCardInteraction(city: City?)
     }
 }

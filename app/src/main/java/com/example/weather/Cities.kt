@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_cities.view.*
 /**
  * A simple [Fragment] subclass.
  */
-class Cities : Fragment(), View.OnClickListener {
+class Cities : Fragment(), CityAdapter.onListClick {
 
     var citiesList = mutableListOf<City>()
     lateinit var navController: NavController
@@ -31,15 +31,21 @@ class Cities : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_cities,container,false)
-        addCities()
-        adapter = CityAdapter(citiesList)
+        if (citiesList.isEmpty()){
+            addCities()
+        }
+        adapter = CityAdapter(citiesList, this)
         view.CitiesList.layoutManager = LinearLayoutManager(context)
         view.CitiesList.adapter = adapter
         return view
     }
 
-    //Botón de prueba
-    override fun onClick(v: View?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
+    }
+
+    override fun onCardInteraction(city: City?) {
         navController!!.navigate(R.id.action_cities_to_weather)
     }
 

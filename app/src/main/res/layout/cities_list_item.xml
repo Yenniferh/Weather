@@ -9,6 +9,7 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/city_Card"
         style="@style/CardStyle"
         app:cardCornerRadius="6dp"
         app:cardElevation="2dp">

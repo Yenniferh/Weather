@@ -7,43 +7,42 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weather.data.City
 import com.example.weather.databinding.FragmentCitiesBinding
+import kotlinx.android.synthetic.main.fragment_cities.view.*
 
 /**
  * A simple [Fragment] subclass.
  */
-class Cities : Fragment() {
+class Cities : Fragment(), View.OnClickListener {
 
     var citiesList = mutableListOf<City>()
+    lateinit var navController: NavController
+    private var adapter : CityAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val binding: FragmentCitiesBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_cities, container, false
-        )
+        val view = inflater.inflate(R.layout.fragment_cities,container,false)
         addCities()
-        /*binding.CitiesList.setOnClickListener{
-            Log.d("List","Clickeaste")
-        }*/
-        val adapter = CityAdapter()
-        binding.CitiesList.adapter = adapter
-        adapter.data = citiesList
-        return binding.root
+        adapter = CityAdapter(citiesList)
+        view.CitiesList.layoutManager = LinearLayoutManager(context)
+        view.CitiesList.adapter = adapter
+        return view
     }
 
-    /**
-     * "Sunny" -> R.drawable.sun_summer_sunny
-    "Hot" -> R.drawable.summer_hot_sun_umbrella
-    "Cloud" -> R.drawable.sun_sunny_cloud
-    "Rain" -> R.drawable.rain_rainy_heavy_cloud
-    "ThunderStorm" -> R.drawable.storm_thunder_heavy_rain_cloud
-    "Fog" -> R.drawable.cloud_fog
-     */
+    //Botón de prueba
+    override fun onClick(v: View?) {
+        navController!!.navigate(R.id.action_cities_to_weather)
+    }
+
     fun addCities() {
         citiesList.add(City("Barranquilla", "Sunny"))
         citiesList.add(City("Malambo", "Hot"))

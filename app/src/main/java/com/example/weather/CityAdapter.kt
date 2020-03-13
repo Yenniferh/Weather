@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.data.City
+import com.example.weather.data.Ciudad
 import com.google.android.material.card.MaterialCardView
 
 class CityAdapter(private val data : List<City>, private val listener: onListClick) : RecyclerView.Adapter<CityAdapter.ViewHolder>() {
@@ -31,12 +32,19 @@ class CityAdapter(private val data : List<City>, private val listener: onListCli
                 "Sunny" -> R.drawable.sun_summer_sunny
                 "Hot" -> R.drawable.summer_hot_sun_umbrella
                 "Cloud" -> R.drawable.sun_sunny_cloud
+                "overcast clouds" -> R.drawable.sun_sunny_cloud
+                "scattered clouds" -> R.drawable.sun_sunny_cloud
                 "Rain" -> R.drawable.rain_rainy_heavy_cloud
+                "light rain" -> R.drawable.rain_rainy_heavy_cloud
                 "ThunderStorm" -> R.drawable.storm_thunder_heavy_rain_cloud
                 "Fog" -> R.drawable.cloud_fog
                 else -> R.drawable.sun_summer_sunny
             }
         )
+    }
+    public fun updateData(){
+        //Aviso cuando la info cambie
+        notifyDataSetChanged()
     }
 
     inner class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {

@@ -44,10 +44,10 @@ class Cities : Fragment(), CityAdapter.onListClick {
        //Se añaden las ciudades
         viewModel.addCities()
 
-        getData()
-       /* if (citiesList.isEmpty()){
-            addCities()
-        }*/
+       // En caso de ir hacia atrás desde la vista de Weather, no vuelva a cargar la lista de ciudades
+       if (citiesList.isEmpty()){
+           getData()
+       }
         adapter = CityAdapter(cities, this)
         view.CitiesList.layoutManager = LinearLayoutManager(context)
         view.CitiesList.adapter = adapter
@@ -69,6 +69,7 @@ class Cities : Fragment(), CityAdapter.onListClick {
                     citiesList = obsU as MutableList<Ciudad>
                     //Se le asignan los valores de la api a los objetos que usamos para mostrar en la view
                     //acá se obtienen los valores pertinentes y se ignoran los que no necesitamos
+                    if(cities.isNotEmpty()) cities.clear() //Para que no se dupliquen las ciudades
                     for (city in citiesList) {
                         var temp = City(
                             city.city.name,//nombre de la ciudad
@@ -85,16 +86,4 @@ class Cities : Fragment(), CityAdapter.onListClick {
         )
     }
 
-
-    /*fun addCities() {
-        citiesList.add(City("Barranquilla", "Sunny"))
-        citiesList.add(City("Malambo", "Hot"))
-        citiesList.add(City("Bogotá", "Rain"))
-        citiesList.add(City("Manizales", "ThunderStorm"))
-        citiesList.add(City("Santa Marta", "Fog"))
-        citiesList.add(City("Soledad", "Cloud"))
-        citiesList.add(City("Montería", "Hot"))
-        citiesList.add(City("Puerto Carreño", "Rain"))
-        citiesList.add(City("Buenaventura", "ThunderStorm"))
-    }*/
 }

@@ -18,5 +18,10 @@
         android:id="@+id/weather"
         android:name="com.example.weather.Weather"
         android:label="fragment_weather"
-        tools:layout="@layout/fragment_weather" />
+        tools:layout="@layout/fragment_weather" >
+        <argument
+            android:name="itemId"
+            app:argType="integer"
+            android:defaultValue="0"/>
+    </fragment>
 </navigation>

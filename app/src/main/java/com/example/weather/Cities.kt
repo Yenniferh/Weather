@@ -61,6 +61,7 @@ class Cities : Fragment(), CityAdapter.onListClick {
 
     override fun onCardInteraction(city: City?) {
         navController!!.navigate(R.id.action_cities_to_weather)
+        Log.d("Why didn't you pass?", "I don't see you")
     }
     private fun getData() {
         viewModel.getCities().observe(
@@ -79,7 +80,6 @@ class Cities : Fragment(), CityAdapter.onListClick {
 
                         cities.add(temp)
                     }
-
                     adapter!!.updateData()
                 }
             }

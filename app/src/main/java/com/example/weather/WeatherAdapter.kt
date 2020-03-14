@@ -6,28 +6,23 @@ import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.data.City
-import com.example.weather.databinding.CitiesListItemBinding
+import com.example.weather.data.Forecast
+import com.example.weather.databinding.WeatherListItemBinding
+import java.util.zip.Inflater
 
-class CityAdapter(private val data : List<City>, private val listener: onListClick) : RecyclerView.Adapter<CityAdapter.ViewHolder>() {
-
+class WeatherAdapter(private val data : List<Forecast>) : RecyclerView.Adapter<WeatherAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        // se hace el data binding
-        val binder : CitiesListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context),R.layout.cities_list_item,parent,false )
+        val binder : WeatherListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.weather_list_item, parent, false)
         return ViewHolder(binder)
     }
 
-    //cantidad de datos
     override fun getItemCount() = data.size
 
-    // se vincula la vista con los datos de la lista
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
-        holder.itemCity.city = item
-        holder.itemCity.executePendingBindings()
-        holder.itemCity.cityCard.setOnClickListener{
-            listener?.onCardInteraction(item)
-        }
-        holder.image.setImageResource(
+        holder.itemWeather.forecast = item
+        holder.itemWeather.executePendingBindings()
+        /*holder.image.setImageResource(
             when (item.currentWeather) {
                 "Sunny" -> R.drawable.sun_summer_sunny
                 "Hot" -> R.drawable.summer_hot_sun_umbrella
@@ -40,7 +35,7 @@ class CityAdapter(private val data : List<City>, private val listener: onListCli
                 "Fog" -> R.drawable.cloud_fog
                 else -> R.drawable.sun_summer_sunny
             }
-        )
+        )*/
     }
 
     fun updateData(){
@@ -48,11 +43,7 @@ class CityAdapter(private val data : List<City>, private val listener: onListCli
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(val itemCity: CitiesListItemBinding) : RecyclerView.ViewHolder(itemCity.root) {
-        val image: ImageView = itemView.findViewById(R.id.imageIcon)
-    }
-
-    interface onListClick{
-        fun onCardInteraction(city: City?)
+    inner class ViewHolder(val itemWeather: WeatherListItemBinding): RecyclerView.ViewHolder(itemWeather.root){
+        //val image: ImageView = itemView.findViewById(R.id.imageIcon)
     }
 }

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -60,8 +61,9 @@ class Cities : Fragment(), CityAdapter.onListClick {
     }
 
     override fun onCardInteraction(city: City?) {
-        navController!!.navigate(R.id.action_cities_to_weather)
-        Log.d("Why didn't you pass?", "I don't see you")
+        var bundle = bundleOf("city" to city)
+        navController!!.navigate(R.id.action_cities_to_weather, bundle)
+        Log.d("Why didn't you pass?", city?.cityName)
     }
     private fun getData() {
         viewModel.getCities().observe(

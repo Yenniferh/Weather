@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.fragment_weather.view.*
 class Weather : Fragment() {
 
     val weather = mutableListOf<Forecast>()
+    lateinit var city: City
     var citiesList = mutableListOf<Ciudad>()
     lateinit var navController: NavController
     private var adapter : WeatherAdapter? = null
@@ -34,6 +35,7 @@ class Weather : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_weather, container, false)
         //Se asigna el viewmodel
@@ -51,7 +53,10 @@ class Weather : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        city = arguments!!.getParcelable("city")!!
+        Log.d("Hello from the other side", city.cityName)
         navController = Navigation.findNavController(view)
+        getData()
     }
 
     private fun getData() {
@@ -63,12 +68,20 @@ class Weather : Fragment() {
                     //acá se obtienen los valores pertinentes y se ignoran los que no necesitamos
                     if(weather.isNotEmpty()) weather.clear() //Para que no se dupliquen las ciudades
                     for (city in citiesList) {
-                        for (wea in city.list[0].weather){
-                            val main: String = wea.main
-                            val description: String = wea.description
-                            val temp = Forecast(main, description)
-                            weather.add(temp)
+
+                        if(city.city.name === this.city.cityName){ //Si la ciudad es la misma que se envió como item
+
+                            for (loo in city.list){
+                                for( wea in loo.weather){ // Se agregan los pronósticos
+                                    val main: String = wea.main
+                                    val description: String = wea.description
+                                    val temp = Forecast(main, description)
+                                    weather.add(temp)
+                                }
+
+                            }
                         }
+
                     }
                     adapter!!.updateData()
                 }
@@ -77,4 +90,3 @@ class Weather : Fragment() {
     }
 
 }
-//Bogotá 5095808

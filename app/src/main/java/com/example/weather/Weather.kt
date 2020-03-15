@@ -1,12 +1,14 @@
 package com.example.weather
 
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -18,6 +20,8 @@ import com.example.weather.data.Ciudad
 import com.example.weather.data.Forecast
 import kotlinx.android.synthetic.main.fragment_cities.view.*
 import kotlinx.android.synthetic.main.fragment_weather.view.*
+import java.time.LocalDate
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -59,6 +63,7 @@ class Weather : Fragment() {
         getData()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun getData() {
         viewModel.getCities().observe(
             viewLifecycleOwner, Observer { obsU ->
@@ -71,12 +76,26 @@ class Weather : Fragment() {
 
                         if(city.city.name === this.city.cityName){ //Si la ciudad es la misma que se envió como item
 
-                            for (loo in city.list){
+                            for (i in 0..city.list.size-1 step 8){
+                                val loo=city.list[i]
                                 for( wea in loo.weather){ // Se agregan los pronósticos
                                     val main: String = wea.main
+                                    val temp:Forecast
                                     val description: String = wea.description
-                                    val temp = Forecast(main, description)
-                                    weather.add(temp)
+                                    val date:String = loo.dt_txt.subSequence(0,10).toString()
+                                    when(i){
+                                        0-> {temp = Forecast(main, description,"Today")
+                                            weather.add(temp)}
+
+                                        8-> {temp = Forecast(main, description,"Tomorrow")
+                                            weather.add(temp)}
+                                        else ->{temp = Forecast(main, description,date)
+                                            weather.add(temp)}
+                                    }
+
+                                    Log.d("forecast",description)
+
+
                                 }
 
                             }

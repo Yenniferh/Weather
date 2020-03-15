@@ -1,3 +1,6 @@
 package com.example.weather.data
 
-data class Forecast(val main: String,val description: String)
+import java.time.LocalDate
+import java.util.*
+
+data class Forecast(val main: String,val description: String,val date: String)

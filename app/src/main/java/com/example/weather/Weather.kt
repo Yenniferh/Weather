@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -18,6 +19,7 @@ import com.example.rvapp.CiudadViewModel
 import com.example.weather.data.City
 import com.example.weather.data.Ciudad
 import com.example.weather.data.Forecast
+import com.example.weather.databinding.FragmentWeatherBinding
 import kotlinx.android.synthetic.main.fragment_cities.view.*
 import kotlinx.android.synthetic.main.fragment_weather.view.*
 import java.time.LocalDate
@@ -34,6 +36,7 @@ class Weather : Fragment() {
     lateinit var navController: NavController
     private var adapter : WeatherAdapter? = null
     private lateinit var viewModel: CiudadViewModel
+    lateinit var binder : FragmentWeatherBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +44,8 @@ class Weather : Fragment() {
     ): View? {
 
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_weather, container, false)
+        val view = LayoutInflater.from(this.context).inflate(R.layout.fragment_weather, container, false)
+        binder= DataBindingUtil.bind(view)!!
         //Se asigna el viewmodel
         viewModel = ViewModelProvider(this).get(CiudadViewModel::class.java)
 
@@ -58,6 +62,7 @@ class Weather : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         city = arguments!!.getParcelable("city")!!
+        binder.city = city
         Log.d("Hello from the other side", city.cityName)
         navController = Navigation.findNavController(view)
         getData()
@@ -82,14 +87,14 @@ class Weather : Fragment() {
                                     val main: String = wea.main
                                     val temp:Forecast
                                     val description: String = wea.description
-                                    val date:String = loo.dt_txt.subSequence(0,10).toString()
+                                    val date:String = loo.dt_txt.toString()
                                     when(i){
                                         0-> {temp = Forecast(main, description,"Today")
                                             weather.add(temp)}
 
                                         8-> {temp = Forecast(main, description,"Tomorrow")
                                             weather.add(temp)}
-                                        else ->{temp = Forecast(main, description,date)
+                                        else ->{temp = Forecast(main, description, dateTransform(date))
                                             weather.add(temp)}
                                     }
 

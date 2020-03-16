@@ -27,20 +27,19 @@ class CityAdapter(private val data : List<City>, private val listener: onListCli
         holder.itemCity.cityCard.setOnClickListener{
             listener?.onCardInteraction(item)
         }
-        holder.image.setImageResource(
+        /*holder.image.setImageResource(
             when (item.currentWeather) {
-                "Sunny" -> R.drawable.sun_summer_sunny
-                "Hot" -> R.drawable.summer_hot_sun_umbrella
-                "Cloud" -> R.drawable.sun_sunny_cloud
-                "overcast clouds" -> R.drawable.sun_sunny_cloud
-                "scattered clouds" -> R.drawable.sun_sunny_cloud
-                "Rain" -> R.drawable.rain_rainy_heavy_cloud
-                "light rain" -> R.drawable.rain_rainy_heavy_cloud
-                "ThunderStorm" -> R.drawable.storm_thunder_heavy_rain_cloud
-                "Fog" -> R.drawable.cloud_fog
-                else -> R.drawable.sun_summer_sunny
+                "clear sky" -> R.drawable.ic_sunny
+                "overcast clouds" -> R.drawable.ic_clouds
+                "scattered clouds" -> R.drawable.ic_clouds
+                "few clouds" -> R.drawable.ic_clouds
+                "broken clouds" -> R.drawable.ic_clouds
+                "light rain" -> R.drawable.ic_light_rain
+                "ThunderStorm" -> R.drawable.ic_storm
+                "Fog" -> R.drawable.ic_fog
+                else -> R.drawable.ic_rain
             }
-        )
+        )*/
     }
 
     fun updateData(){

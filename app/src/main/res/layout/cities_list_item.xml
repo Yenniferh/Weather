@@ -49,10 +49,10 @@
                 android:id="@+id/imageIcon"
                 android:layout_width="125dp"
                 android:layout_height="0dp"
-                android:background="@color/blue_400"
+                android:background="@drawable/ic_fondocards"
                 android:cropToPadding="false"
-                app:imageResource="@{city.image}"
                 android:scaleType="centerCrop"
+                app:imageResource="@{city.image}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
